@@ -238,17 +238,15 @@ class _HomePageState extends State<HomePage> {
               child: GoogleMap(
                 mapType: MapType.hybrid,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(13.0376969, 77.6663322),
+                  target: issues.isEmpty
+                      ? LatLng(12.969430947659568, 77.61441707611084)
+                      : LatLng(
+                          issues.first.latitude,
+                          issues.first.longitude,
+                        ),
                   zoom: 14.4746,
                 ),
-                markers: Set.from(
-                  [
-                    Marker(
-                      markerId: MarkerId("ab"),
-                      position: LatLng(13.0376969, 77.6663322),
-                    ),
-                  ],
-                ),
+                markers: issues.isNotEmpty ? getIssueMarkers() : null,
                 onMapCreated: (controller) {
                   _controller.complete(controller);
                 },
@@ -295,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           // Issue Image
                           Image.network(
-                            "https://firebasestorage.googleapis.com/v0/b/townhall-95847.appspot.com/o/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg?alt=media&token=40e316d4-99d7-4cdf-8a0b-e7f9992b8d62",
+                            issues[index].mediaUrls.first,
                             height: 170,
                             fit: BoxFit.cover,
                           ),
@@ -426,5 +424,18 @@ class _HomePageState extends State<HomePage> {
     // others
     else
       return Container();
+  }
+
+  getIssueMarkers() {
+    List<Marker> markers = List();
+    for (Issue issue in issues) {
+      markers.add(
+        Marker(
+          markerId: MarkerId(issue.id),
+          position: LatLng(issue.latitude, issue.longitude),
+        ),
+      );
+    }
+    return Set.from(markers).cast<Marker>();
   }
 }

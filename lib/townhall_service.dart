@@ -79,7 +79,7 @@ class TownhallService {
   }
 
   getIssues() async {
-    num maxD = 5000, minD = 0;
+    num maxD = 10000, minD = 0;
     String endPoint = "/getIssues";
     String url = _baseUrl + endPoint;
 
@@ -92,8 +92,8 @@ class TownhallService {
       body: jsonEncode({
         'minD': minD,
         'maxD': maxD,
-        'long': 77.67383337020874,
-        'lat': 12.965729799560522
+        'long': 77.61441707611084,
+        'lat': 12.969430947659568,
       }),
     );
 
@@ -111,8 +111,8 @@ class TownhallService {
           map["_id"],
           map["title"],
           map["description"],
-          map["location"]["coordinates"][0],
           map["location"]["coordinates"][1],
+          map["location"]["coordinates"][0],
           (map["attachedMedia"]).cast<String>(),
           comments,
         ));
@@ -121,8 +121,35 @@ class TownhallService {
     return issues;
   }
 
-  getIssueById() async {
+  getIssueById(String issueId) async {
     final endPoint = "/issueByID";
+    final url = _baseUrl + endPoint;
+
+    // make request
+    var response = await http.post(
+      url,
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: jsonEncode({
+        "qid": issueId,
+      }),
+    );
+    print(response.body);
+    Issue issue;
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      var responseJson = jsonDecode(response.body)["res"][0];
+      issue = Issue(
+        responseJson["_id"],
+        responseJson["title"],
+        responseJson["description"],
+        0,
+        0,
+        List(),
+        List(),
+      );
+    }
+    return issue;
   }
 
   addDiscussion(Issue issue, String comment) async {

@@ -60,13 +60,14 @@ class _ViewIssueScreenState extends State<ViewIssueScreen> {
                   return Container(
                     margin: EdgeInsets.only(right: 1),
                     child: Image.network(
-                      "https://firebasestorage.googleapis.com/v0/b/townhall-95847.appspot.com/o/1605095311544?alt=media&token=712a4741-5f38-4044-a8c9-cd38e1e76fbf",
+                      issue.mediaUrls[index],
                       width: 300,
                       height: 200,
                       fit: BoxFit.cover,
                     ),
                   );
                 },
+                itemCount: issue.mediaUrls.length,
               ),
             ),
 
@@ -109,7 +110,7 @@ class _ViewIssueScreenState extends State<ViewIssueScreen> {
               child: GoogleMap(
                 mapType: MapType.hybrid,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(13.0376969, 77.6663322),
+                  target: LatLng(issue.latitude, issue.longitude),
                   zoom: 14.4746,
                 ),
               ),

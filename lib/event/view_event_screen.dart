@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:townhall/auth/user.dart';
 import 'package:townhall/event/event.dart';
+import 'package:townhall/issue/issue.dart';
+import 'package:townhall/townhall_service.dart';
 
 class ViewEventScreen extends StatefulWidget {
   final Event event;
@@ -14,8 +16,16 @@ class ViewEventScreen extends StatefulWidget {
 class _ViewEventScreenState extends State<ViewEventScreen> {
   Event event;
   bool going = true;
+  String issueName = "loading...";
 
   _ViewEventScreenState({this.event});
+
+  @override
+  void initState() {
+    super.initState();
+
+    getIssueName();
+  }
 
   @override
   build(context) => Scaffold(
@@ -57,7 +67,7 @@ class _ViewEventScreenState extends State<ViewEventScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  event.issueId,
+                  "Issue: $issueName",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -140,4 +150,11 @@ class _ViewEventScreenState extends State<ViewEventScreen> {
           ),
         ),
       );
+
+  getIssueName() async {
+    Issue issue = await TownhallService.instance().getIssueById(event.issueId);
+    setState(() {
+      issueName = issue.title;
+    });
+  }
 }

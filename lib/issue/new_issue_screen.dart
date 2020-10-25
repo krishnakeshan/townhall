@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:townhall/issue/issue.dart';
+import 'package:place_picker/place_picker.dart';
 
 import 'package:townhall/townhall_service.dart';
 
@@ -69,8 +70,8 @@ class _NewIssueScreenState extends State<NewIssueScreen> {
       null,
       _newIssueFormState.titleController.text,
       _newIssueFormState.descriptionController.text,
-      double.parse(_newIssueFormState.locationController.text.split(" ")[0]),
-      double.parse(_newIssueFormState.locationController.text.split(" ")[1]),
+      12.969430947659568,
+      77.61441707611084,
       List(),
       List(),
     );
@@ -111,12 +112,32 @@ class _NewIssueFormState extends State<NewIssueForm> {
   final TextEditingController titleController = TextEditingController(),
       descriptionController = TextEditingController(),
       locationController = TextEditingController();
+  LocationResult selectedLocation;
   final _imagePicker = ImagePicker();
   final Function onSubmit;
 
   _NewIssueFormState({this.onSubmit});
 
   // Methods
+  showPlacePicker() async {
+    LocationResult result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (buildContext) {
+          return PlacePicker(
+            "AIzaSyBhkaO2dX5-K2MwYa2vZB_O3PURLFHTdAA",
+          );
+        },
+      ),
+    );
+
+    // setState
+    if (mounted) {
+      setState(() {
+        selectedLocation = LocationResult();
+      });
+    }
+  }
+
   @override
   Widget build(context) => Form(
         key: _formKey,
@@ -152,17 +173,29 @@ class _NewIssueFormState extends State<NewIssueForm> {
             ),
 
             // Location
-            TextFormField(
-              controller: locationController,
-              decoration: InputDecoration(
-                hintText: "Location",
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              child: Text(
+                "Location",
               ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return "Please enter a valid location";
-                } else
-                  return null;
-              },
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              child: RaisedButton.icon(
+                color: Colors.blueGrey,
+                label: Text(
+                  selectedLocation == null ? "Select Location" : "Selected",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                icon: Icon(
+                  selectedLocation == null ? Icons.location_on : Icons.check,
+                  color: Colors.white,
+                ),
+                onPressed: showPlacePicker,
+              ),
             ),
 
             // Images
@@ -219,7 +252,7 @@ class _NewIssueFormState extends State<NewIssueForm> {
             Container(
               margin: EdgeInsets.only(top: 16),
               child: ElevatedButton(
-                child: Text("Submit"),
+                child: Text("Create Issue"),
                 onPressed: () {
                   // validate input
                   if (_formKey.currentState.validate()) {
