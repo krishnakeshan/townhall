@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "973110832913",
+    "firebase_url": "https://townhall-95847.firebaseio.com",
+    "project_id": "townhall-95847",
+    "storage_bucket": "townhall-95847.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973110832913:android:39b6675efd8952eb30a6b0",
+        "android_client_info": {
+          "package_name": "com.qrilt.townhall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973110832913-46bhu3a8mc1na0tsc6btdjhgtobdffjd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qrilt.townhall",
+            "certificate_hash": "cc3f9e41f90bed386eacbffb59a32a86081fb8a9"
+          }
+        },
+        {
+          "client_id": "973110832913-7c8k42sm373bsf0l8ms3fh9fc62eq6in.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVVZkFy4uAcrzdlet3I6EePDt8aw_685s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973110832913-7c8k42sm373bsf0l8ms3fh9fc62eq6in.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
